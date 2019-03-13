@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Fantasy Baseball Draft</title>
+    <meta name="author" content="Brent Kulwicki">
+    <meta name="description" content="This is the draft website for the Chris Kulwicki Memorial Fantasy Football League.">
+    <meta name="keywords" content="fantasy football, NFL, football, fantasy sports">
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+  </head>
+  <body>
+    <!-- this section contains the player name, team, position and 2018 stats. Each position (Qb, RB, WR, TE, D/ST and K)
+    gets their own div, but only one div will be displayed at a time. All other class="statbox" divs will be hidden if the
+    corresponding player does not play that position-->
+    <div id='player-data'>
+        <div class='flex'>
+            <div class='flex-child'>
+                <h4 id='displayName'>Select Player Below</h4>
+                <h5 id='teamAbv'>Team</h5>
+            </div>
+            <div class='flex-child'>
+                <h4>2018 Stats</h3>
+                <h5>Games Played - <span id='gs'>x</span></p>
+            </div>
+        </div>
+        <div class='statBox' id='placeholder'>
+            <h3>Position</h3>
+            <h5>Player</h5>
+            <h5>Stats</h5>
+            <h5>Go Here</h5>
+        </div>
+        <div class='statBox hidden' id='qb-stats'>
+            <h3>QB</h3>
+            <p>Passing Yards - <span>x</span></p>
+            <p>Passing TDs - <span>x</span></p>
+            <p>Rushing Yards - <span>x</span></p>
+            <p>Rushing TDs - <span>x</span></p>
+            <p>INTs - <span>x</span></p>
+            <p>Fumbles Lost - <span>x</span></p>
+            <p>Total Fantasy Points - <span>x</span></p>
+        </div>
+        <div class='statBox hidden' id='rb-stats'>
+            <h3>RB</h3>
+            <p>Rushing Yards - <span>x</span></p>
+            <p>Rushing TDs - <span>x</span></p>
+            <p>Receiving Yards - <span>x</span></p>
+            <p>Receptions - <span>x</span></p>
+            <p>Receiving TDs - <span>x</span></p>
+            <p>Fumbles Lost - <span>x</span></p>
+            <p>Total Fantasy Points - <span>x</span></p>
+        </div>
+        <div class='statBox hidden' id='wr-stats'>
+            <h3>WR</h3>
+            <p>Receiving Yards - <span>x</span></p>
+            <p>Receptions - <span>x</span></p>
+            <p>Receiving TDs - <span>x</span></p>
+            <p>Rushing Yards - <span>x</span></p>
+            <p>Rushing TDs - <span>x</span></p>
+            <p>Fumbles Lost - <span>x</span></p>
+            <p>Total Fantasy Points - <span>x</span></p>
+        </div>
+        <div class='statBox hidden' id='te-stats'>
+            <h3>TE</h3>
+            <p>Receiving Yards - <span>x</span></p>
+            <p>Receptions - <span>x</span></p>
+            <p>Receiving TDs - <span>x</span></p>
+            <p>Rushing Yards - <span>x</span></p>
+            <p>Rushing TDs - <span>x</span></p>
+            <p>Fumbles Lost - <span>x</span></p>
+            <p>Total Fantasy Points - <span>x</span></p>
+        </div>
+        <div class='statBox hidden' id='def-stats'>
+            <h3>D/ST</h3>
+            <p>Avg Points/Game - <span>x</span></p>
+            <p>Total Sacks - <span>x</span></p>
+            <p>Total Turnovers - <span>x</span></p>
+            <p>Total Fantasy Points - <span>x</span></p>
+        </div>
+        <div class='statBox hidden' id='k-stats'>
+            <h3>K</h3>
+            <p>FG Made - <span>x</span></p>
+            <p>FG Attempted - <span>x</span></p>
+            <p>XP Made - <span>x</span></p>
+            <p>XP Attempted - <span>x</span></p>
+            <p>Total Fantasy Points - <span>x</span></p>
+        </div>
+    </div>
+    <!-- this div contains all the player search, keeper input and draft player features. -->
+    <div id='player-search'>
+        <h3>Player Search</h3><p>Click Player Below For Stats</p><br>
+        <label>Last Name</label>
+        <input type='text' id='lastName'>
+        <button id='playerSearch'>Search</button>
+        <div id='enterKeepers'>
+            <select class=''>
+                <option value='default-selected' disabled selected>Select Keeper Team</option>
+                <option value='tm-1'>Team 1</option>
+                <option value='tm-2'>Team 2</option>
+                <option value='tm-3'>Team 3</option>
+                <option value='tm-4'>Team 4</option>
+                <option value='tm-5'>Team 5</option>
+                <option value='tm-6'>Team 6</option>
+                <option value='tm-7'>Team 7</option>
+                <option value='tm-8'>Team 8</option>
+                <option value='tm-9'>Team 9</option>
+                <option value='tm-10'>Team 10</option>
+            </select>
+            <select class=''>
+                <option value='default-selected' disabled selected>Select Keeper Round</option>
+                <option value='rnd-1'>Round 1</option>
+                <option value='rnd-2'>Round 2</option>
+                <option value='rnd-3'>Round 3</option>
+                <option value='rnd-4'>Round 4</option>
+                <option value='rnd-5'>Round 5</option>
+                <option value='rnd-6'>Round 6</option>
+                <option value='rnd-7'>Round 7</option>
+                <option value='rnd-8'>Round 8</option>
+                <option value='rnd-9'>Round 9</option>
+                <option value='rnd-10'>Round 10</option>
+                <option value='rnd-11'>Round 11</option>
+                <option value='rnd-12'>Round 12</option>
+                <option value='rnd-13'>Round 13</option>
+                <option value='rnd-14'>Round 14</option>
+                <option value='rnd-15'>Round 15</option>
+                <option value='rnd-16'>Round 16</option>
+                <option value='rnd-17'>Round 17</option>
+                <option value='rnd-18'>Round 18</option>
+            </select><br>
+            <button id='keepPlayers' class=''>Enter Keeper</button><br>
+            <button id='draftButton' class='disabled'>Draft Player</button>
+        </div>
+        <ul id='playerList'>
+        </ul>
+    </div>
+    <!-- this section is the actual draftboard itself. It is defaulted to display only one column at a time for mobile displays
+    and expand to see the entire draftboard on a desktop view. The select menu is displayed only on mobile layouts so the user
+    can pick which column (AKA team) should be displayed - default column is the far left that displays the rounds -->
+    <div>
+        <select id='hidden-desktop'>
+            <option value='default-selected' disabled selected>Select Team To Display</option>
+            <option value='team-1'>Team 1</option>
+            <option value='team-2'>Team 2</option>
+            <option value='team-3'>Team 3</option>
+            <option value='team-4'>Team 4</option>
+            <option value='team-5'>Team 5</option>
+            <option value='team-6'>Team 6</option>
+            <option value='team-7'>Team 7</option>
+            <option value='team-8'>Team 8</option>
+            <option value='team-9'>Team 9</option>
+            <option value='team-10'>Team 10</option>
+        </select>
+        <table id='draft-board'>
+            <tr id='parent-tr'>
+                <td class='column'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th>Round 1</th>
+                            </tr>
+                            <tr>
+                                <th>Round 2</th>
+                            </tr>
+                            <tr>
+                                <th>Round 3</th>
+                            </tr>
+                            <tr>
+                                <th>Round 4</th>
+                            </tr>
+                            <tr>
+                                <th>Round 5</th>
+                            </tr>
+                            <tr>
+                                <th>Round 6</th>
+                            </tr>
+                            <tr>
+                                <th>Round 7</th>
+                            </tr>
+                            <tr>
+                                <th>Round 8</th>
+                            </tr>
+                            <tr>
+                                <th>Round 9</th>
+                            </tr>
+                            <tr>
+                                <th>Round 10</th>
+                            </tr>
+                            <tr>
+                                <th>Round 11</th>
+                            </tr>
+                            <tr>
+                                <th>Round 12</th>
+                            </tr>
+                            <tr>
+                                <th>Round 13</th>
+                            </tr>
+                            <tr>
+                                <th>Round 14</th>
+                            </tr>
+                            <tr>
+                                <th>Round 15</th>
+                            </tr>
+                            <tr>
+                                <th>Round 16</th>
+                            </tr>
+                            <tr>
+                                <th>Round 17</th>
+                            </tr>
+                            <tr>
+                                <th>Round 18</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 1</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 2</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 3</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 4</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 5</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 6</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 7</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 8</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 9</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class='column hiddenColumn'>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Team 10</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src='js/scripts.js'></script>
+  </body>
+</html>

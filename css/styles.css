@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+p {
+    display: inline-block;
+}
+div {
+    border: 1px solid black;
+}
+/* Styling for the top box on the page containing the Player data and stats information */
+#player-data {
+    background-color: green;
+}
+.flex {
+    display: flex;
+}
+.flex-child {
+    width: 50%;
+    border: none;
+}
+/* this class is applied to the QB/RB/WR/TE/D/ST/K divs to hide them on initial page load and then as stats are updated thereafter */
+.hidden {
+    display: none;
+}
+/* end styling for the top section */
+/* Styling for the second section which is the player search section  */
+#player-search {
+    max-height: 40%;
+    text-align: center;
+    background-color: lightgreen;
+}
+/* end styling for the player search section */
+/* these are the stylings for the draft board (AKA tables) */
+/* this class is being used to hide all columns other than the selcted column in the mobile layout */
+.hiddenColumn {
+    display: none;
+}
+th,
+td {
+    border: 1px solid black;
+    display: block;
+    height: 22px;
+    overflow: hidden;
+}
+#parent-tr > td {
+    height: unset;
+}
+#parent-tr {
+    height: unset;
+}
+td {
+    text-align: center;
+}
+table {
+    width: 100%;
+}
+/* end draft board styling */
+/* Desktop stylings */
+@media only screen and (min-width: 1000px) {
+    .hiddenColumn,
+    .column {
+        display: inline-block;
+    }
+    .column {
+        width: 9%;
+    }
+    #hidden-desktop {
+        display: none;
+    }
+}
