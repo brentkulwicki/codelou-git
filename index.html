@@ -20,7 +20,7 @@
                 <h4 id='displayName'>Select Player Below</h4>
                 <h5 id='teamAbv'>Team</h5>
             </div>
-            <div class='flex-child'>
+            <div class='flex-child' id='lastYear'>
                 <h4>2018 Stats</h3>
                 <h5>Games Played - <span id='gs'>x</span></p>
             </div>
@@ -31,61 +31,25 @@
             <h5>Stats</h5>
             <h5>Go Here</h5>
         </div>
-        <div class='statBox hidden' id='qb-stats'>
-            <h3>QB</h3>
-            <p>Passing Yards - <span>x</span></p>
-            <p>Passing TDs - <span>x</span></p>
-            <p>Rushing Yards - <span>x</span></p>
-            <p>Rushing TDs - <span>x</span></p>
-            <p>INTs - <span>x</span></p>
-            <p>Fumbles Lost - <span>x</span></p>
-            <p>Total Fantasy Points - <span>x</span></p>
+        <div class='statBox hidden' id='batter-stats'>
+            <h3 id='batter'>Batter</h3>
+            <p>R - <span id='runs'>x</span></p>
+            <p>HR - <span id='hr'>x</span></p>
+            <p>RBI - <span id='rbi'>x</span></p>
+            <p>SB - <span id='sb'>x</span></p>
+            <p>OBP - <span id='obp'>x</span></p>
+            <p>SLG - <span id='slg'>x</span></p>
         </div>
-        <div class='statBox hidden' id='rb-stats'>
-            <h3>RB</h3>
-            <p>Rushing Yards - <span>x</span></p>
-            <p>Rushing TDs - <span>x</span></p>
-            <p>Receiving Yards - <span>x</span></p>
-            <p>Receptions - <span>x</span></p>
-            <p>Receiving TDs - <span>x</span></p>
-            <p>Fumbles Lost - <span>x</span></p>
-            <p>Total Fantasy Points - <span>x</span></p>
+        <div class='statBox hidden' id='pitcher-stats'>
+            <h3 id='pitcher'>Pitcher</h3>
+            <p>IP - <span id='innings'>x</span></p>
+            <p>QS - <span id='qs'>x</span></p>
+            <p>SV - <span id='sv'>x</span></p>
+            <p>ERA - <span id='era'>x</span></p>
+            <p>WHIP - <span id='whip'>x</span></p>
+            <p>K/BB - <span id='kbb'>x</span></p>
         </div>
-        <div class='statBox hidden' id='wr-stats'>
-            <h3>WR</h3>
-            <p>Receiving Yards - <span>x</span></p>
-            <p>Receptions - <span>x</span></p>
-            <p>Receiving TDs - <span>x</span></p>
-            <p>Rushing Yards - <span>x</span></p>
-            <p>Rushing TDs - <span>x</span></p>
-            <p>Fumbles Lost - <span>x</span></p>
-            <p>Total Fantasy Points - <span>x</span></p>
-        </div>
-        <div class='statBox hidden' id='te-stats'>
-            <h3>TE</h3>
-            <p>Receiving Yards - <span>x</span></p>
-            <p>Receptions - <span>x</span></p>
-            <p>Receiving TDs - <span>x</span></p>
-            <p>Rushing Yards - <span>x</span></p>
-            <p>Rushing TDs - <span>x</span></p>
-            <p>Fumbles Lost - <span>x</span></p>
-            <p>Total Fantasy Points - <span>x</span></p>
-        </div>
-        <div class='statBox hidden' id='def-stats'>
-            <h3>D/ST</h3>
-            <p>Avg Points/Game - <span>x</span></p>
-            <p>Total Sacks - <span>x</span></p>
-            <p>Total Turnovers - <span>x</span></p>
-            <p>Total Fantasy Points - <span>x</span></p>
-        </div>
-        <div class='statBox hidden' id='k-stats'>
-            <h3>K</h3>
-            <p>FG Made - <span>x</span></p>
-            <p>FG Attempted - <span>x</span></p>
-            <p>XP Made - <span>x</span></p>
-            <p>XP Attempted - <span>x</span></p>
-            <p>Total Fantasy Points - <span>x</span></p>
-        </div>
+        <button id='draftButton' class='disabled'>Draft Player</button>
     </div>
     <!-- this div contains all the player search, keeper input and draft player features. -->
     <div id='player-search'>
@@ -129,7 +93,6 @@
                 <option value='rnd-18'>Round 18</option>
             </select><br>
             <button id='keepPlayers' class=''>Enter Keeper</button><br>
-            <button id='draftButton' class='disabled'>Draft Player</button>
         </div>
         <ul id='playerList'>
         </ul>

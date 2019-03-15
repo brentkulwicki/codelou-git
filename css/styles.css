@@ -10,6 +10,7 @@ div {
     border: 1px solid black;
 }
 /* Styling for the top box on the page containing the Player data and stats information */
+
 #player-data {
     background-color: green;
 }
@@ -20,7 +21,7 @@ div {
     width: 50%;
     border: none;
 }
-/* this class is applied to the QB/RB/WR/TE/D/ST/K divs to hide them on initial page load and then as stats are updated thereafter */
+/* this class is applied to the hitter and pitchers divs to hide them on page load */
 .hidden {
     display: none;
 }
@@ -30,6 +31,12 @@ div {
     max-height: 40%;
     text-align: center;
     background-color: lightgreen;
+    overflow: scroll;
+}
+li {
+    list-style: none;
+    border: 1px solid black;
+    cursor: pointer;
 }
 /* end styling for the player search section */
 /* these are the stylings for the draft board (AKA tables) */
