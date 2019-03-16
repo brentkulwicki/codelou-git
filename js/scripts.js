@@ -2,7 +2,7 @@
 let columns = document.getElementsByClassName('column');
 let selectDisplayTeam = document.getElementsByTagName('select');
 selectDisplayTeam = selectDisplayTeam[2];
-selectDisplayTeam.addEventListener('change', displayTeam);
+selectDisplayTeam.addEventListener('change', displayTeamDraft);
 
 //this function assigns classes to all the table columns to display only one on the screen based on the selected team
 function hideUnhide(number) {
@@ -12,7 +12,7 @@ function hideUnhide(number) {
     columns[number].setAttribute('class', 'column');
 };
 
-function displayTeam() {
+function displayTeamDraft() {
     switch (selectDisplayTeam.value) {
         case 'team-1':
             hideUnhide(1);
@@ -128,6 +128,295 @@ function removePlayerList () {
     };
 };
 
+//this is listening for which li is clicked on to select the player in that li
+playerParent.addEventListener('click', function(event) {
+    playerId = event.target.id;
+    let playerPosition = event.target.className;
+    let playerInformation = event.target.innerHTML;
+    displayPlayerInfo(playerInformation);
+    getPlayerStats(playerId, playerPosition);
+});
 
+function getPlayerStats (id, position) {
+    if (position === 'P') {
+        getPitchingStats(id);
+    } else {
+        getHittingStats(id);
+    };
+};
+//These two function pull the hitting and pitching data from MLB's website
+function getHittingStats(id) {
+    jsonHittingStats = [];
+    let idNumber = id;
+    getData.open('GET', `http://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='2018'&player_id='${idNumber}'`, true)
+    getData.onload = function() {
+        if (this.status === 200) {
+            jsonHittingStats.push(JSON.parse(this.responseText));
+            //can console.log the jsonHittingStats here if I need to see the json response again
+            displayHittingStats();
+        };
+    };
+    getData.send();
+};
+function getPitchingStats(id) {
+    jsonPitchingStats = [];
+    let idNumber = id;
+    getData.open('GET', `http://lookup-service-prod.mlb.com/json/named.sport_pitching_tm.bam?league_list_id='mlb'&game_type='R'&season='2018'&player_id='${idNumber}'`, true)
+    getData.onload = function() {
+        if (this.status === 200) {
+            jsonPitchingStats.push(JSON.parse(this.responseText));
+            //can console.log the jsonPitchingStats here if I need to see the json response again
+            displayPitcherStats();
+        };
+    };
+    getData.send();
+};
+// this function grabs the player data being displayed in the playersearch section and puts it at the tope of the page
+function displayPlayerInfo (playerTeamPosition) {
+    let draftPlayerName = document.getElementById('displayName');
+    draftPlayerName.innerHTML = playerTeamPosition;
+};
 
+//This is the group of variables needed to keep the stats info
+let jsonHittingStats = []; //this is used to store the json for hitters
+let jsonPitchingStats = [];//this is used to store the json for pitchers
+let gs = document.getElementById('gs');
+let runs = document.getElementById('runs');
+let hr = document.getElementById('hr');
+let rbi = document.getElementById('rbi');
+let sb = document.getElementById('sb');
+let obp = document.getElementById('obp');
+let slg = document.getElementById('slg');
+let innings = document.getElementById('innings');
+let qs = document.getElementById('qs');
+let sv = document.getElementById('sv');
+let era = document.getElementById('era');
+let whip = document.getElementById('whip');
+let kbb = document.getElementById('kbb');
+let displayName = document.getElementById('displayName');
+let displayTeam = document.getElementById('displayTeam');
+let draftButton = document.getElementById('draftButton');
+let draftedPlayers = [];//this keeps the players that have already been drafted in an array so 
+//they can't be drafted a 2nd time
+let playerId;
+let draftedPlayerCells = document.getElementsByTagName('td');//this is the node list of all the draft cells to loop through
 
+//this function checks the draftedPlayers array to see if a player is on that list and disables the draft button if they are
+function checkDraftedPlayers() {
+    if (draftedPlayers.length < 1) {
+        draftButton.setAttribute('class', 'active');
+    } else {
+        for (let i = 0; i < draftedPlayers.length; i++) {
+            if (playerId === draftedPlayers[i]) {
+                draftButton.setAttribute('class', 'disabled');
+            } else {
+                draftButton.setAttribute('class', 'active');
+            };
+        };
+    };
+};
+
+//this group is what actually grabs the stats info and displays it on the page
+function displayHittingStats() {
+    checkDraftedPlayers();
+    let obpCalc;
+    let slgCalc;
+    if (jsonHittingStats[0].sport_hitting_tm.queryResults.row.length > 1) {
+        let length = jsonHittingStats[0].sport_hitting_tm.queryResults.row.length;
+        let games = 0;
+        let runsScored = 0;
+        let homeruns = 0;
+        let runsBattedIn = 0;
+        let stolenBases = 0;
+        let onBasePerc = 0;
+        let sluggingPerc = 0;
+        for (let i = 0; i < length; i++) {
+            let gamesPlaceholder = jsonHittingStats[0].sport_hitting_tm.queryResults.row[i].g;
+            let runsPlaceholder = jsonHittingStats[0].sport_hitting_tm.queryResults.row[i].r;
+            let homerunsPlaceholder = jsonHittingStats[0].sport_hitting_tm.queryResults.row[i].hr;
+            let rbiPlaceholder = jsonHittingStats[0].sport_hitting_tm.queryResults.row[i].rbi;
+            let sbPlaceholder = jsonHittingStats[0].sport_hitting_tm.queryResults.row[i].sb;
+            let obpPlaceholder = jsonHittingStats[0].sport_hitting_tm.queryResults.row[i].obp;
+            let slgPlaceholder = jsonHittingStats[0].sport_hitting_tm.queryResults.row[i].slg;
+            gamesPlaceholder = parseInt(gamesPlaceholder);
+            runsPlaceholder = parseInt(runsPlaceholder);
+            homerunsPlaceholder = parseInt(homerunsPlaceholder);
+            rbiPlaceholder = parseInt(rbiPlaceholder);
+            sbPlaceholder = parseInt(sbPlaceholder);
+            obpPlaceholder = parseFloat(obpPlaceholder);
+            obpPlaceholder = obpPlaceholder * gamesPlaceholder;
+            slgPlaceholder = parseFloat(slgPlaceholder);
+            slgPlaceholder = slgPlaceholder * gamesPlaceholder;
+            games = games + gamesPlaceholder;
+            runsScored = runsScored + rbiPlaceholder;
+            homeruns = homeruns + homerunsPlaceholder;
+            runsBattedIn = runsBattedIn + rbiPlaceholder;
+            stolenBases = stolenBases + sbPlaceholder;
+            onBasePerc = onBasePerc + obpPlaceholder;
+            sluggingPerc = sluggingPerc + slgPlaceholder;
+        }
+        innings.innerHTML = '-';
+        qs.innerHTML = '-';
+        sv.innerHTML = '-';
+        era.innerHTML = '-';
+        whip.innerHTML = '-';
+        kbb.innerHTML = '-';
+        gs.innerHTML = games;
+        runs.innerHTML = runsScored;
+        hr.innerHTML = homeruns;
+        rbi.innerHTML = runsBattedIn;
+        sb.innerHTML = stolenBases;
+        obpCalc = (onBasePerc/games)
+        obp.innerHTML = obpCalc.toFixed(3);
+        slgCalc = (sluggingPerc/games);
+        slg.innerHTML = slgCalc.toFixed(3);
+        let displayBatter = document.getElementById('batter-stats');
+        displayBatter.removeAttribute('class', 'hidden');
+        let hidePlaceholder = document.getElementById('placeholder');
+        hidePlaceholder.setAttribute('class', 'statBox hidden');
+        let hidePitcher = document.getElementById('pitcher-stats');
+        hidePitcher.setAttribute('class', 'statBox hidden');
+    } else {
+        innings.innerHTML = '-';
+        qs.innerHTML = '-';
+        sv.innerHTML = '-';
+        era.innerHTML = '-';
+        whip.innerHTML = '-';
+        kbb.innerHTML = '-';
+        gs.innerHTML = jsonHittingStats[0].sport_hitting_tm.queryResults.row.g;
+        runs.innerHTML = jsonHittingStats[0].sport_hitting_tm.queryResults.row.r;
+        hr.innerHTML = jsonHittingStats[0].sport_hitting_tm.queryResults.row.hr;
+        rbi.innerHTML = jsonHittingStats[0].sport_hitting_tm.queryResults.row.rbi;
+        sb.innerHTML = jsonHittingStats[0].sport_hitting_tm.queryResults.row.sb;
+        obp.innerHTML = jsonHittingStats[0].sport_hitting_tm.queryResults.row.obp;
+        slg.innerHTML = jsonHittingStats[0].sport_hitting_tm.queryResults.row.slg;
+        let displayBatter = document.getElementById('batter-stats');
+        displayBatter.removeAttribute('class', 'hidden');
+        let hidePlaceholder = document.getElementById('placeholder');
+        hidePlaceholder.setAttribute('class', 'statBox hidden');
+        let hidePitcher = document.getElementById('pitcher-stats');
+        hidePitcher.setAttribute('class', 'statBox hidden');
+    };
+};
+function displayPitcherStats() {
+    checkDraftedPlayers();
+    if (jsonPitchingStats[0].sport_pitching_tm.queryResults.row.length > 1) {
+        let length = jsonPitchingStats[0].sport_pitching_tm.queryResults.row.length;
+        let games = 0;
+        let inningsPitched = 0;
+        let qualityStart = 0;
+        let saves = 0;
+        let earnedRunAvg = 0;
+        let walksHitsIP = 0;
+        let kbbTotal = 0;
+        let eraCalc = 0;
+        let whipCalc = 0;
+        for (let i = 0; i < length; i++) {
+            let gamesPlaceholder = jsonPitchingStats[0].sport_pitching_tm.queryResults.row[i].g;
+            let ipPlaceholder = jsonPitchingStats[0].sport_pitching_tm.queryResults.row[i].ip;
+            let qsPlaceholder = jsonPitchingStats[0].sport_pitching_tm.queryResults.row[i].qs;
+            let savesPlaceholder = jsonPitchingStats[0].sport_pitching_tm.queryResults.row[i].sv;
+            let eraPlaceholder = jsonPitchingStats[0].sport_pitching_tm.queryResults.row[i].era;
+            let whipPlaceholder = jsonPitchingStats[0].sport_pitching_tm.queryResults.row[i].whip;
+            let kbbPlaceholder = jsonPitchingStats[0].sport_pitching_tm.queryResults.row[i].kbb;
+            gamesPlaceholder = parseInt(gamesPlaceholder);
+            ipPlaceholder = parseFloat(ipPlaceholder);
+            qsPlaceholder = parseInt(qsPlaceholder);
+            savesPlaceholder = parseInt(savesPlaceholder);
+            eraPlaceholder = parseFloat(eraPlaceholder);
+            eraPlaceholder = eraPlaceholder * ipPlaceholder;
+            whipPlaceholder = parseFloat(whipPlaceholder);
+            whipPlaceholder = whipPlaceholder * ipPlaceholder;
+            kbbPlaceholder = parseFloat(kbbPlaceholder);
+            kbbPlaceholder = kbbPlaceholder * ipPlaceholder;
+            games = games + gamesPlaceholder;
+            inningsPitched = inningsPitched + ipPlaceholder;
+            qualityStart = qualityStart + qsPlaceholder;
+            saves = saves + savesPlaceholder;
+            earnedRunAvg = earnedRunAvg + eraPlaceholder;
+            walksHitsIP = walksHitsIP + whipPlaceholder;
+            kbbTotal = kbbTotal + kbbPlaceholder;
+        }
+        runs.innerHTML = '-';
+        hr.innerHTML = '-';
+        rbi.innerHTML = '-';
+        sb.innerHTML = '-';
+        obp.innerHTML = '-';
+        slg.innerHTML = '-';
+        gs.innerHTML = games;
+        let inningsRemainder = calcInnings(inningsPitched);
+        innings.innerHTML = Math.floor(inningsPitched) + inningsRemainder;
+        qs.innerHTML = qualityStart;
+        sv.innerHTML = saves;
+        eraCalc = (earnedRunAvg/(Math.floor(inningsPitched) + inningsRemainder));
+        eraCalc = eraCalc.toFixed(2);
+        era.innerHTML = eraCalc;
+        whipCalc = (walksHitsIP/(Math.floor(inningsPitched) + inningsRemainder));
+        whipCalc = whipCalc.toFixed(2);
+        whip.innerHTML = whipCalc;
+        kbbTotal = (kbbTotal/(Math.floor(inningsPitched) + inningsRemainder));
+        kbbTotal = kbbTotal.toFixed(2);
+        kbb.innerHTML = kbbTotal;
+        let displayHitter = document.getElementById('pitcher-stats');
+        displayHitter.removeAttribute('class', 'hidden');
+        let hidePlaceholder = document.getElementById('placeholder');
+        hidePlaceholder.setAttribute('class', 'statBox hidden');
+        let hideHitter = document.getElementById('batter-stats');
+        hideHitter.setAttribute('class', 'statBox hidden');
+    } else {
+        runs.innerHTML = '-';
+        hr.innerHTML = '-';
+        rbi.innerHTML = '-';
+        sb.innerHTML = '-';
+        obp.innerHTML = '-';
+        slg.innerHTML = '-';
+        gs.innerHTML = jsonPitchingStats[0].sport_pitching_tm.queryResults.row.g;
+        innings.innerHTML = jsonPitchingStats[0].sport_pitching_tm.queryResults.row.ip;
+        qs.innerHTML = jsonPitchingStats[0].sport_pitching_tm.queryResults.row.qs;
+        sv.innerHTML = jsonPitchingStats[0].sport_pitching_tm.queryResults.row.sv;
+        era.innerHTML = jsonPitchingStats[0].sport_pitching_tm.queryResults.row.era;
+        whip.innerHTML = jsonPitchingStats[0].sport_pitching_tm.queryResults.row.whip;
+        kbb.innerHTML = jsonPitchingStats[0].sport_pitching_tm.queryResults.row.kbb;
+        let displayHitter = document.getElementById('pitcher-stats');
+        displayHitter.removeAttribute('class', 'hidden');
+        let hidePlaceholder = document.getElementById('placeholder');
+        hidePlaceholder.setAttribute('class', 'statBox hidden');
+        let hideHitter = document.getElementById('batter-stats');
+        hideHitter.setAttribute('class', 'statBox hidden');
+    };
+};
+function calcInnings(innings) {
+    let ipRemainder = innings % 1;
+    //for .9 innings
+    if (ipRemainder > 0.81) {
+        return 3.0;
+    // for .8 innings
+    } else if (ipRemainder > 0.7) {
+        return 2.2;
+    // for .7 innings
+    } else if (ipRemainder > 0.61) {
+        return 2.1;
+    // for .6 innings
+    } else if (ipRemainder > 0.5) {
+        return 2.0;
+    // for .5 innings
+    } else if (ipRemainder > 0.4) {
+        return 1.2;
+    // for .4 innings
+    } else if (ipRemainder > 0.31) {
+        return 1.1;
+    // for .3 innings
+    } else if (ipRemainder > 0.2) {
+        return 1.0; 
+    // for .2 innings
+    } else if (ipRemainder > 0.11) {
+        return 0.2;
+    // for .1 innings
+    } else if (ipRemainder > 0) {
+        return 0.1;
+    } else {
+        return 0.0;
+    };
+};
+
+//
