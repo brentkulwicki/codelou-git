@@ -419,4 +419,5 @@ function calcInnings(innings) {
     };
 };
 
-//
+//this section is for drafting the players and inserting them into the dom
+draftButton.addEventListener('click', draftPlayer);
