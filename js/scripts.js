@@ -148,7 +148,7 @@ function getPlayerStats (id, position) {
 function getHittingStats(id) {
     jsonHittingStats = [];
     let idNumber = id;
-    getData.open('GET', `http://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='2018'&player_id='${idNumber}'`, true)
+    getData.open('GET', `https://lookup-service-prod.mlb.com/json/named.sport_hitting_tm.bam?league_list_id='mlb'&game_type='R'&season='2018'&player_id='${idNumber}'`, true)
     getData.onload = function() {
         if (this.status === 200) {
             jsonHittingStats.push(JSON.parse(this.responseText));
