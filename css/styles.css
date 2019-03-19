@@ -28,7 +28,7 @@ div {
 /* end styling for the top section */
 /* Styling for the second section which is the player search section  */
 #player-search {
-    max-height: 40%;
+    height: 25vh;
     text-align: center;
     background-color: lightgreen;
     overflow: scroll;
@@ -40,9 +40,14 @@ li {
 }
 /* end styling for the player search section */
 /* these are the stylings for the draft board (AKA tables) */
+
 /* this class is being used to hide all columns other than the selcted column in the mobile layout */
 .hiddenColumn {
     display: none;
+}
+
+tbody.team > tr {
+    overflow: hidden;
 }
 th,
 td {
