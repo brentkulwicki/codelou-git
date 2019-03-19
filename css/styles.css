@@ -47,6 +47,7 @@ li {
 }
 
 tbody.team > tr {
+    height: 22px;
     overflow: hidden;
 }
 th,

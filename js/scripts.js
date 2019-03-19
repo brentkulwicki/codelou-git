@@ -435,7 +435,7 @@ function draftPlayer () {
             children = Array.from(children);
             if (i === 9) {
                 if (children[roundCounter].innerText < 3) {
-                    children[roundCounter].innerText = selectedPlayer;
+                    children[roundCounter].innerHTML = `<td>${selectedPlayer}</td>`;
                     roundCounter = roundCounter + 1;
                     children[roundCounter].setAttribute('title', selectedPlayer);
                     draftedPlayers.push(playerId);
@@ -444,7 +444,7 @@ function draftPlayer () {
                 };
             } else {
                 if (children[roundCounter].innerText < 3) {
-                    children[roundCounter].innerText = selectedPlayer;
+                    children[roundCounter].innerHTML = `<td>${selectedPlayer}</td>`;
                     children[roundCounter].setAttribute('title', selectedPlayer);
                     draftedPlayers.push(playerId);
                     draftButton.setAttribute('class', 'disabled');
@@ -512,7 +512,7 @@ function findKeeperRound(team, round, columnsOfTeams) {
     teamPicksArray = Array.from(teamPicksArray);
     let isActive = draftButton.className;
     if (teamPicksArray[round].innerText.length < 3 && isActive === 'active') {
-        teamPicksArray[round].innerText = selectedPlayer;
+        teamPicksArray[round].innerHTML = `<td>${selectedPlayer}</td>`;
         teamPicksArray[round].setAttribute('title', selectedPlayer);
         draftButton.setAttribute('class', 'disabled');
         draftedPlayers.push(playerId);
