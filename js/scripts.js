@@ -54,10 +54,10 @@ let playerArray = []; // this is used to store the json data we get from a playe
 
 // in the below node list, the search button is 0, the enter keeper button is 1 and the draft player button is 2
 let buttons = document.querySelectorAll('button');
-buttons[0].addEventListener('click', whenClicked);
-function whenClicked () {
-    console.log(lastName.value);
-};
+////////////////// buttons[0].addEventListener('click', whenClicked); commenting these few lines out because I don't think they're necessary
+// function whenClicked () {
+//     console.log(lastName.value);
+// };
 //next section is for the player search section - this sends a request to MLB.com and returns basic info about all
 //the players that have the last name searched for and stores them as an array
 let last = '';
@@ -209,6 +209,7 @@ function checkDraftedPlayers() {
         for (let i = 0; i < draftedPlayers.length; i++) {
             if (playerId === draftedPlayers[i]) {
                 draftButton.setAttribute('class', 'disabled');
+                break;
             } else {
                 draftButton.setAttribute('class', 'active');
             };
@@ -420,4 +421,112 @@ function calcInnings(innings) {
 };
 
 //this section is for drafting the players and inserting them into the dom
+let roundCounter = 1;
+
+function draftPlayer () {
+    let keepersHidden = document.querySelector('#enterKeepers');
+    let selectedPlayer = document.getElementById('displayName').innerHTML;
+    let teams = document.querySelectorAll('tbody.team');
+    let teamArray = Array.from(teams);
+    let isActive = draftButton.className;
+    if (isActive === 'active') {
+        for (let i = 0; i < teamArray.length; i++) {
+            let children = teamArray[i].children;
+            children = Array.from(children);
+            if (i === 9) {
+                if (children[roundCounter].innerText < 3) {
+                    children[roundCounter].innerText = selectedPlayer;
+                    roundCounter = roundCounter + 1;
+                    children[roundCounter].setAttribute('title', selectedPlayer);
+                    draftedPlayers.push(playerId);
+                    draftButton.setAttribute('class', 'disabled');
+                    break;
+                };
+            } else {
+                if (children[roundCounter].innerText < 3) {
+                    children[roundCounter].innerText = selectedPlayer;
+                    children[roundCounter].setAttribute('title', selectedPlayer);
+                    draftedPlayers.push(playerId);
+                    draftButton.setAttribute('class', 'disabled');
+                    if (keepersHidden.className !== 'hidden') {
+                        hideKeeperOptions();
+                    };
+                    break;
+            };
+        };
+    };
+    let buttonArray = document.getElementsByTagName('button');
+    buttonArray[2].setAttribute('disabled', true);
+    } else {
+    };
+};
+
 draftButton.addEventListener('click', draftPlayer);
+
+// this code is for inputting keepers to a particular team
+function inputKeepers() {
+    let teamColumns = document.querySelectorAll('tbody.team');
+    teamColumns = Array.from(teamColumns);
+    let selectRound = document.querySelector('#keeperRoundSelect');
+    let roundSelected = selectRound.value;
+    roundSelected = parseInt(roundSelected);
+    let selectTeam = document.querySelector('#teamColumn');
+    switch (selectTeam.value) {
+        case 'tm-1':
+			findKeeperRound(0, roundSelected, teamColumns);
+			break;
+		case 'tm-2':
+            findKeeperRound(1, roundSelected, teamColumns);
+			break;
+		case 'tm-3':
+            findKeeperRound(2, roundSelected, teamColumns);;
+			break;
+		case 'tm-4':
+            findKeeperRound(3, roundSelected, teamColumns);
+            break;
+        case 'tm-5':
+            findKeeperRound(4, roundSelected, teamColumns);
+            break;
+        case 'tm-6':
+            findKeeperRound(5, roundSelected, teamColumns);
+            break;
+        case 'tm-7':
+            findKeeperRound(6, roundSelected, teamColumns);
+            break;
+        case 'tm-8':
+            findKeeperRound(7, roundSelected, teamColumns);
+            break;
+        case 'tm-9':
+            findKeeperRound(8, roundSelected, teamColumns);
+            break;
+        case 'tm-10':
+            findKeeperRound(9, roundSelected, teamColumns);
+            break;
+	};
+};
+
+//function for inputting the team number and keeper round into the above function for selecting the keeper
+function findKeeperRound(team, round, columnsOfTeams) {
+    let selectedPlayer = document.getElementById('displayName').innerHTML;
+    let teamPicksArray = columnsOfTeams[team].children;
+    teamPicksArray = Array.from(teamPicksArray);
+    let isActive = draftButton.className;
+    if (teamPicksArray[round].innerText.length < 3 && isActive === 'active') {
+        teamPicksArray[round].innerText = selectedPlayer;
+        teamPicksArray[round].setAttribute('title', selectedPlayer);
+        draftButton.setAttribute('class', 'disabled');
+        draftedPlayers.push(playerId);
+    } else {
+        alert('Player already selected OR team/round selected has already been filled');
+    }
+};
+
+let keeperButton = document.getElementById('keepPlayers');
+keeperButton.addEventListener('click', inputKeepers);
+
+//this function will hide the keeper options once players are starting to be drafted
+function hideKeeperOptions() {
+    let makeHidden = document.querySelector('#enterKeepers');
+    makeHidden.setAttribute('class', 'hidden');
+};
+

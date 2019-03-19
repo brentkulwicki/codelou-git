@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Fantasy Baseball Draft</title>
     <meta name="author" content="Brent Kulwicki">
-    <meta name="description" content="This is the draft website for the Chris Kulwicki Memorial Fantasy Football League.">
+    <meta name="description" content="This is the draft website for fantasy baseball by Brent Kulwicki.">
     <meta name="keywords" content="fantasy football, NFL, football, fantasy sports">
     <link rel="stylesheet" href="css/styles.css" type="text/css">
   </head>
@@ -58,7 +58,7 @@
         <input type='text' id='lastName'>
         <button id='playerSearch'>Search</button>
         <div id='enterKeepers'>
-            <select class=''>
+            <select id='teamColumn'>
                 <option value='default-selected' disabled selected>Select Keeper Team</option>
                 <option value='tm-1'>Team 1</option>
                 <option value='tm-2'>Team 2</option>
@@ -71,26 +71,26 @@
                 <option value='tm-9'>Team 9</option>
                 <option value='tm-10'>Team 10</option>
             </select>
-            <select class=''>
+            <select id='keeperRoundSelect'>
                 <option value='default-selected' disabled selected>Select Keeper Round</option>
-                <option value='rnd-1'>Round 1</option>
-                <option value='rnd-2'>Round 2</option>
-                <option value='rnd-3'>Round 3</option>
-                <option value='rnd-4'>Round 4</option>
-                <option value='rnd-5'>Round 5</option>
-                <option value='rnd-6'>Round 6</option>
-                <option value='rnd-7'>Round 7</option>
-                <option value='rnd-8'>Round 8</option>
-                <option value='rnd-9'>Round 9</option>
-                <option value='rnd-10'>Round 10</option>
-                <option value='rnd-11'>Round 11</option>
-                <option value='rnd-12'>Round 12</option>
-                <option value='rnd-13'>Round 13</option>
-                <option value='rnd-14'>Round 14</option>
-                <option value='rnd-15'>Round 15</option>
-                <option value='rnd-16'>Round 16</option>
-                <option value='rnd-17'>Round 17</option>
-                <option value='rnd-18'>Round 18</option>
+                <option value='1'>Round 1</option>
+                <option value='2'>Round 2</option>
+                <option value='3'>Round 3</option>
+                <option value='4'>Round 4</option>
+                <option value='5'>Round 5</option>
+                <option value='6'>Round 6</option>
+                <option value='7'>Round 7</option>
+                <option value='8'>Round 8</option>
+                <option value='9'>Round 9</option>
+                <option value='10'>Round 10</option>
+                <option value='11'>Round 11</option>
+                <option value='12'>Round 12</option>
+                <option value='13'>Round 13</option>
+                <option value='14'>Round 14</option>
+                <option value='15'>Round 15</option>
+                <option value='16'>Round 16</option>
+                <option value='17'>Round 17</option>
+                <option value='18'>Round 18</option>
             </select><br>
             <button id='keepPlayers' class=''>Enter Keeper</button><br>
         </div>

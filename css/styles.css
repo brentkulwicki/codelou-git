@@ -21,7 +21,7 @@ div {
     width: 50%;
     border: none;
 }
-/* this class is applied to the hitter and pitchers divs to hide them on page load */
+/* this class is applied to the hitter and pitchers divs to hide them on page load - also used to hide keeper section when the draft starts */
 .hidden {
     display: none;
 }
