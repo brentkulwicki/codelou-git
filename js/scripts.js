@@ -205,13 +205,16 @@ let draftedPlayerCells = document.getElementsByTagName('td');//this is the node 
 function checkDraftedPlayers() {
     if (draftedPlayers.length < 1) {
         draftButton.setAttribute('class', 'active');
+        buttons[2].setAttribute('class', 'active');
     } else {
         for (let i = 0; i < draftedPlayers.length; i++) {
             if (playerId === draftedPlayers[i]) {
                 draftButton.setAttribute('class', 'disabled');
+                buttons[2].setAttribute('class', 'disabled');
                 break;
             } else {
                 draftButton.setAttribute('class', 'active');
+                buttons[2].setAttribute('class', 'active');
             };
         };
     };
@@ -440,6 +443,7 @@ function draftPlayer () {
                     children[roundCounter].setAttribute('title', selectedPlayer);
                     draftedPlayers.push(playerId);
                     draftButton.setAttribute('class', 'disabled');
+                    buttons[2].setAttribute('class', 'disabled');
                     break;
                 };
             } else {
@@ -515,6 +519,7 @@ function findKeeperRound(team, round, columnsOfTeams) {
         teamPicksArray[round].innerHTML = `<td>${selectedPlayer}</td>`;
         teamPicksArray[round].setAttribute('title', selectedPlayer);
         draftButton.setAttribute('class', 'disabled');
+        buttons[2].setAttribute('class', 'disabled');
         draftedPlayers.push(playerId);
     } else {
         alert('Player already selected OR team/round selected has already been filled');
